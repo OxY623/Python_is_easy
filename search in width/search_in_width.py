@@ -1,44 +1,27 @@
-graph={}
-graph["you"]=["alice","bob","claire"]
-graph["bob"] = ["anuj", "peggy"] 
-graph["alice"] = ["peggy"] 
-graph["claire"] = ["thom", "jonny"] 
-graph["anuj"] = [] 
-graph["peggy"] = [] 
-graph["thom"] = [] 
-graph["jonny"] = []
+from collections import deque
 
-from collections import deque 
-""" search_queue = deque()
-search_queue+=graph["you"]
-
-while search_queue:
-    person=search_queue.popleft()
-    if person_is_seller(person):
-        print(person+" is a mango seller!!!")
-        return True
-    else:
-        search_queue+=graph[person]
-return False """
+maze = {"Exit": ["i"], "i": ["j", "h"], "j": ["g", "c"], "h": ["g", "f"], "g": ["f", "e", "d"], "c": ["b"], "f": ["g"],
+        "e": ["g", "s"], "d": ["s", "b", "g"], "s": ["a", "b", "Entrance"], "b": ["s", "c"], "Entrance": ["s"]}
 
 
-def person_is_seller(name): 
-    return name[-1] == 'm'
+def search_exit(name):
+    return name == "Exit"
 
 
-def search(name): 
-   search_queue = deque() 
-   search_queue += graph[name] 
-   searched = []
-   while search_queue: 
-        person = search_queue.popleft() 
-        if not person in searched: 
-            if person_is_seller(person): 
-                print(person +" is а mango seller!") 
-                return True 
-        else: 
-             search_queue += graph[person] 
-             searched.append(person)  
-   return False 
+def search(name):
+    search_queue = deque()
+    search_queue += maze[name]
+    searched = []
+    while search_exit:
+        room = search_queue.pop()
+        if not room in searched:
+            if search_exit(room):
+                print(room)
+                return True
+        else:
+            search_queue += maze[room]
+            searched.append(room)
+    return False
 
-search("you")
+
+search("Entrance")
